@@ -1,21 +1,18 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { Question } from "../types.ts";
 
 export const generateQuiz = async (topic: string): Promise<Question[]> => {
-  // Attempt to find the API key in common environment locations
-  const apiKey = 
-    (window as any).process?.env?.API_KEY || 
-    (import.meta as any).env?.API_KEY ||
-    process.env.API_KEY;
+  const apiKey = process.env.API_KEY;
   
-  if (!apiKey || apiKey === "undefined") {
-    console.error("QuizMaster AI Error: API_KEY is missing from the environment.");
+  // Check if the key is still the placeholder or missing
+  if (!apiKey || apiKey === "_REPLACE_ME_WITH_API_KEY_" || apiKey === "undefined") {
+    console.error("QuizMaster AI Error: API_KEY not properly injected.");
     throw new Error(
-      "API Key not found. If you are on Netlify: \n" +
-      "1. Add 'API_KEY' to Site Configuration > Environment Variables. \n" +
-      "2. Ensure you have triggered a fresh deploy. \n" +
-      "3. If using a static deploy, check if your build process injects variables."
+      "API Key missing or injection failed. \n\n" +
+      "To fix this in Netlify: \n" +
+      "1. Go to Site Configuration > Environment Variables and add 'API_KEY'. \n" +
+      "2. Ensure your Build Settings 'Build Command' is set to: \n" +
+      "   sed -i \"s|_REPLACE_ME_WITH_API_KEY_|$API_KEY|g\" index.html"
     );
   }
 

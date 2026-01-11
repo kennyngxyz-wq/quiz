@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +33,12 @@
         }
     </style>
     <script>
-        // Ensure a minimal process.env shim exists for the browser
-        window.process = window.process || {};
-        window.process.env = window.process.env || {};
+        // The placeholder _REPLACE_ME_WITH_API_KEY_ is swapped during Netlify build
+        window.process = {
+            env: {
+                API_KEY: "_REPLACE_ME_WITH_API_KEY_"
+            }
+        };
     </script>
 <script type="importmap">
 {
