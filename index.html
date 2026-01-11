@@ -34,14 +34,9 @@
         }
     </style>
     <script>
-        // Ensure process object exists before any other modules load
-        window.process = { 
-            env: { 
-                // In production (Netlify), the key must be available in the environment.
-                // This shim provides a safe object for the code to check against.
-                ...((window.process && window.process.env) || {}) 
-            } 
-        };
+        // Ensure a minimal process.env shim exists for the browser
+        window.process = window.process || {};
+        window.process.env = window.process.env || {};
     </script>
 <script type="importmap">
 {
