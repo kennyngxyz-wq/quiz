@@ -33,12 +33,14 @@
         }
     </style>
     <script>
-        // The placeholder _REPLACE_ME_WITH_API_KEY_ is swapped during Netlify build
-        window.process = {
-            env: {
-                API_KEY: "_REPLACE_ME_WITH_API_KEY_"
-            }
-        };
+        // Setup process.env shim
+        window.process = window.process || {};
+        window.process.env = window.process.env || {};
+        
+        // Only set the placeholder if the key isn't already provided by the environment
+        if (!window.process.env.API_KEY || window.process.env.API_KEY === "undefined") {
+            window.process.env.API_KEY = "_REPLACE_ME_WITH_API_KEY_";
+        }
     </script>
 <script type="importmap">
 {

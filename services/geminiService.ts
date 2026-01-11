@@ -4,15 +4,19 @@ import { Question } from "../types.ts";
 export const generateQuiz = async (topic: string): Promise<Question[]> => {
   const apiKey = process.env.API_KEY;
   
-  // Check if the key is still the placeholder or missing
-  if (!apiKey || apiKey === "_REPLACE_ME_WITH_API_KEY_" || apiKey === "undefined") {
-    console.error("QuizMaster AI Error: API_KEY not properly injected.");
+  // Verify that the key is actually a valid Gemini API key format (usually starts with AIza)
+  const isInvalid = !apiKey || 
+                    apiKey === "_REPLACE_ME_WITH_API_KEY_" || 
+                    apiKey === "undefined" || 
+                    apiKey.length < 10;
+
+  if (isInvalid) {
+    console.error("QuizMaster AI: API_KEY is missing or invalid.");
     throw new Error(
-      "API Key missing or injection failed. \n\n" +
-      "To fix this in Netlify: \n" +
-      "1. Go to Site Configuration > Environment Variables and add 'API_KEY'. \n" +
-      "2. Ensure your Build Settings 'Build Command' is set to: \n" +
-      "   sed -i \"s|_REPLACE_ME_WITH_API_KEY_|$API_KEY|g\" index.html"
+      "API Key not found. If you just deployed to Netlify:\n\n" +
+      "1. Ensure 'API_KEY' is added to Site Configuration > Environment Variables.\n" +
+      "2. Check that your Build Command is set to use the 'sed' replacement in netlify.toml.\n" +
+      "3. Trigger a 'Clear cache and deploy site' to apply the changes."
     );
   }
 
