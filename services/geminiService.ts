@@ -3,16 +3,19 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { Question } from "../types.ts";
 
 export const generateQuiz = async (topic: string): Promise<Question[]> => {
-  const apiKey = process.env.API_KEY;
+  // Check both process.env and a potential window global for maximum compatibility in different host environments
+  const apiKey = process.env.API_KEY || (window as any).process?.env?.API_KEY;
+  
   if (!apiKey) {
-    throw new Error("API Key is missing. Please check your configuration.");
+    console.error("QuizMaster AI: API_KEY is undefined. Ensure it is set in your environment variables.");
+    throw new Error("API Key is missing. If you are on Netlify, please ensure you have added API_KEY to your site environment variables.");
   }
 
   const ai = new GoogleGenAI({ apiKey });
   
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
-    contents: `Generate a 5-question multiple choice quiz about ${topic} suitable for high school students. 
+    contents: `Generate a 5-question multiple choice quiz about ${topic} suitable for the specified learner level. 
               The questions should be educational, clear, and engaging. 
               Provide 4 options for each question and clearly identify the correct answer index (0-3). 
               Also include a brief explanation of why the answer is correct.`,

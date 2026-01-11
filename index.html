@@ -34,19 +34,24 @@
         }
     </style>
     <script>
-        // Critical: Shim process.env for browser environments where it's not defined
-        // This prevents the application from crashing when @google/genai or services are loaded
-        window.process = window.process || { env: {} };
+        // Ensure process object exists before any other modules load
+        window.process = { 
+            env: { 
+                // In production (Netlify), the key must be available in the environment.
+                // This shim provides a safe object for the code to check against.
+                ...((window.process && window.process.env) || {}) 
+            } 
+        };
     </script>
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom": "https://esm.sh/react-dom@^19.2.3",
-    "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.35.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
