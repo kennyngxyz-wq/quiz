@@ -1,12 +1,12 @@
 
 import React, { useState, useCallback } from 'react';
-import { QuizCard } from './components/QuizCard';
-import { ResultsView } from './components/ResultsView';
-import { UserInfoForm } from './components/UserInfoForm';
-import { Button } from './components/Button';
-import { generateQuiz } from './services/geminiService';
-import { submitQuizResults } from './services/sheetService';
-import { Question, QuizState, QuizStatus, UserInfo } from './types';
+import { QuizCard } from './components/QuizCard.tsx';
+import { ResultsView } from './components/ResultsView.tsx';
+import { UserInfoForm } from './components/UserInfoForm.tsx';
+import { Button } from './components/Button.tsx';
+import { generateQuiz } from './services/geminiService.ts';
+import { submitQuizResults } from './services/sheetService.ts';
+import { Question, QuizState, QuizStatus, UserInfo } from './types.ts';
 
 const PREDEFINED_TOPICS = [
   "Solar System",
@@ -96,7 +96,6 @@ const App: React.FC = () => {
     const isLastQuestion = state.currentQuestionIndex === state.questions.length - 1;
 
     if (isLastQuestion) {
-      // Trigger background submission to Google Sheets
       if (state.userInfo) {
         submitQuizResults(
           state.userInfo,
@@ -126,7 +125,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4 md:p-8 overflow-hidden">
-      {/* Dynamic Background Blobs */}
       <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-600 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
       <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-600 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-600 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
@@ -232,7 +230,6 @@ const App: React.FC = () => {
           />
         )}
 
-        {/* Footer / Info */}
         <div className="mt-12 text-slate-500 text-sm flex items-center gap-2 opacity-60">
           <span>Powered by</span>
           <span className="font-bold text-slate-400 px-2 py-0.5 bg-slate-800 rounded-md">Gemini Flash</span>

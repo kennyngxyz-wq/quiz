@@ -1,5 +1,5 @@
 
-import { UserInfo } from "../types";
+import { UserInfo } from "../types.ts";
 
 const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwZcVQIs5Wc09ODR6fM8ri-vgaoc2FphzR3R4KEbk9EMxm1R1DawxXxKeoKB8SR4bJR/exec";
 
@@ -28,8 +28,6 @@ export const submitQuizResults = async (
   };
 
   try {
-    // We use 'no-cors' because Google Apps Script redirects (302) often trigger CORS errors 
-    // even when the data is successfully received. This ensures the data is sent reliably.
     await fetch(WEBHOOK_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -41,6 +39,5 @@ export const submitQuizResults = async (
     console.log("Quiz results submitted successfully to Google Sheets.");
   } catch (error) {
     console.error("Failed to submit quiz results:", error);
-    // We don't throw here to avoid interrupting the user's flow if the logging fails
   }
 };

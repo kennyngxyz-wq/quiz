@@ -1,9 +1,14 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { Question } from "../types";
+import { Question } from "../types.ts";
 
 export const generateQuiz = async (topic: string): Promise<Question[]> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API Key is missing. Please check your configuration.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
@@ -43,7 +48,9 @@ export const generateQuiz = async (topic: string): Promise<Question[]> => {
   });
 
   try {
-    const questions = JSON.parse(response.text.trim());
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI");
+    const questions = JSON.parse(text.trim());
     return questions;
   } catch (error) {
     console.error("Failed to parse quiz response:", error);

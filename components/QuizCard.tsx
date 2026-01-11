@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Question } from '../types';
-import { Button } from './Button';
+import { Question } from '../types.ts';
+import { Button } from './Button.tsx';
 
 interface QuizCardProps {
   question: Question;
@@ -28,7 +28,6 @@ export const QuizCard: React.FC<QuizCardProps> = ({
 
   return (
     <div className="w-full max-w-2xl bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-6 md:p-10 shadow-2xl relative">
-      {/* Progress Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex flex-col gap-1">
           <span className="text-slate-400 font-semibold tracking-wider text-xs uppercase">

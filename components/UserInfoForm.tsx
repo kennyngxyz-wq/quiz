@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { Button } from './Button';
-import { UserInfo } from '../types';
+import { Button } from './Button.tsx';
+import { UserInfo } from '../types.ts';
 
 interface UserInfoFormProps {
   onConfirm: (info: UserInfo) => void;
